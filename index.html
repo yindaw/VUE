@@ -4,23 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./observer.js"></script>
-    <!-- <script src="./vue.js"></script> -->
+    <script src="./vue.js"></script>
 </head>
 <body>
-  <div id="app">
-    {{ obj }}
-  </div>
-  <script>
-    // const vm = new Vue({
-    //       el: "#app",
-    //       data: {
-    //           obj: {
-    //               a: 1,
-    //               b: 10
-    //           }
-    //       }
-    //   })
-  </script>
+    <!-- v-pre -->
+    <!-- v-cloak -->
+    <!-- v-once -->
+    <!-- v-text -->
+    <!-- v-html -->
+
+    <input type="text">
+    <button>点击</button>
+
+    <div id="app">
+     <div v-html="msg"></div>
+    </div>
+
+
+
+    <script>
+        const oInput = document.getElementsByTagName("input")[0];
+        const oButton = document.getElementsByTagName("button")[0];
+        let msg = null;
+
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                msg: "hello world"
+            }
+        });
+        oButton.onclick = function () {
+            vm.msg = oInput.value;
+        }
+    </script>
 </body>
 </html>
