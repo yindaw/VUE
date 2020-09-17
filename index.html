@@ -8,33 +8,63 @@
 </head>
 <body>
     <div id="app">
-      <button @click="addCounter(5, $event)">点击+1</button>
-      <!-- <button v-on:[event]="addCounter(5, $event)">点击+1</button> -->
-      <!-- <button v-on="{click: addCounter}">点击+1</button> -->
-      <p>按钮被点击了{{ counter }}次</p>
-    </div>
+        <!-- <div @click="alert('div')" :style="{backgroundColor: 'red'}">
+            <button @click.stop="alert('button')">点击</button>
+        </div> -->
+
+
+        <!-- <form @submit.prevent="onSubmit">
+            <input type="submit">
+        </form> -->
+
+
+        <!-- <div @click.capture="alert('div')" :style="{backgroundColor: 'red'}">
+            <button @click="alert('button')">点击</button>
+        </div> -->
+
+
+        <!-- <div @click.self="alert('div')" :style="{backgroundColor: 'red'}">
+            <button @click="alert('button')">点击</button>
+        </div> -->
+
+
+        <!-- <div @click.once="alert('div')" :style="{backgroundColor: 'red'}">
+            <button @click="alert('button')">点击</button>
+        </div> -->
+
+
+        <!-- <div @click.passive="handleClick" :style="{backgroundColor: 'red'}"></div> -->
+
+
+        <!-- <div @click.prevent.self="handleClick">点击</div>
+        <div @click.self.prevent="handleClick">点击</div> -->
+
+
+        <!-- <input type="text" @keyup.enter="onSubmit"> -->
+        <!-- <input type="text" @keyup.caps-lock="onSubmit"> -->
+        <!-- <input type="text" @keyup.up="onSubmit">
+        <input type="text" @keyup.arrow-up="onSubmit"> -->
+        <!-- <input type="text" @keyup.v="onSubmit"> -->
+
+
+
+
+        <!-- <input type="text" @keyup.ctrl="onSubmit"> -->
+        <!-- <input type="text" @keyup.alt.67="onSubmit"> -->
+        <!-- <div @click.ctrl.exact="onSubmit">点击</div> -->
+        <div @click.exact="onSubmit">点击</div>
+    </div> 
 
 
     <script>
-        //counter
-        //vm.addCounter
-        //$event
-
-
+        //Vue.config.keyCodes.v = 86;
         const vm = new Vue({
             el: "#app",
-            data: {
-                counter: 0,
-                event: "click"
-            },
             methods: {
-                addCounter (num, e) {
-                    //this VUE实例对象
-                    this.counter += num;
-                    console.log(e.target)
-                },
-                a () {
-                    console.log("a");
+                alert(str) { alert(str) },
+                onSubmit () { console.log('a') },
+                handleClick () {
+
                 }
             }
         });
