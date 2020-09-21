@@ -5,182 +5,59 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <script src="./vue.js"></script>
-        <!-- <link rel="stylesheet" href="index.css"> -->
+        <script src="./jquery.js"></script>
+        <link rel="stylesheet" href="index.css">
     </head>
     <body>
         <div id="app">
-            {{ name }}
-            <!-- {{ fullName }} -->
-            <!-- {{ msg }}
-            {{ obj }} -->
+            <div class="logo">
+                <img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" title="点击一下，了解更多">
+            </div>
+            <div class="search-box">
+                <span class="search-area">
+                    <input type="text"
+                    maxlength="100"
+                    v-model="inputVal"
+                    @focus="() => inputFocus = true"
+                    @blur="() => inputFocus = false">
+                    <span class="icon icon-paizhao"></span>
+                </span>
+                <span class="search-btn">百度一下</span>
+            </div>
+
+            <ul class="search-list"
+            v-show="inputFocus && searchResList.length">
+                <li
+                v-for="res in searchResList" :key="res">{{ res }}</li>
+            </ul>
         </div>
 
         <script>
         const vm = new Vue({
             el: "#app",
             data: {
-               msg: "hello, 你好呀",
-               obj: {
-                   name: "杉杉",
-                   age: 18,
-                   looks: "beautiful" 
-               },
-               firstName: "邓",
-               lastName: "旭明",
-               fullName: "邓旭明",
-               name: "shanshan"
-            },
-            computed: {
-                // desc () {
-                //     setTimeout(() => {
-                //         this.name = "shanshan";
-                //         console.log("bbb");   
-                //     });
-                //    return this.name + "超美的"; 
-                // }
-                // fullName () {
-                //     return this.firstName + this.lastName
-                // }
+              inputFocus: false,
+              inputVal: "",
+              searchResList: []
             },
             methods: {
-                msgChange () {
-                    //console.log("ms");
-                    console.log("msg的值改变了");
+                searchRes (res) {
+                    this.searchResList = res.s;
                 }
             },
             watch: {
-                name: function (newVal) {
-                    setTimeout(() => {
-                        alert(newVal);
-                    });
-                },
-                firstName () {
-                    this.fullName = this.firstName + this.lastName;
-                },
-                lastName () {
-                    this.fullName = this.firstName + this.lastName;
-                },
-                //key: value
-                // msg: function (newVal, oldVal) {
-                //     console.log(`newVal:${ newVal }`);
-                //     console.log(`oldVal:${ oldVal }`);
-                //     //console.log("msg的值改变了");
-                // },
-
-
-                // msg: "msgChange"
-
-
-                // msg: {
-                //     //key: value
-                //     handler: function () {
-                //         console.log("msg的值改变啦");
-                //     },
-                //     deep: Boolean
-                // },
-
-
-                // obj: {
-                //     handler: function () {
-                //         console.log("msg的值改变啦");
-                //     },
-                //     deep: true,
-                //     //immediate: Boolean
-                // }
-
-
-
-
-                // obj: [
-                //     "msgChange",
-                //     function () {},
-                //     {
-                //         handler () {}
-                //     }
-                // ],
-
-
-
-                // "obj.name" () {
-                //     console.log("name改变了");
-                // }
-
-
-
-
+                inputVal () {
+                    $.ajax({
+                        dataType: "jsonp",
+                        url: "https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su",
+                        data: {
+                            wd: this.inputVal,
+                            cb: "vm.searchRes"
+                        }
+                    })
+                }
             }
-        })
-
-
-
-        // vm.$watch("msg", function () {
-        //     console.log("msg的值改变了");
-        // }, {
-        //     deep: true,
-        //     immediate: true
-        // });
-
-
-
-
-        // vm.$watch("msg", {
-        //     handler () {},
-        //     deep:Boolean,
-        //     immediate: Boolean
-        // });
-
-
-
-
-
-
-        // vm.$watch("obj.name", {
-        //     handler () {
-        //         console.log("name的值改变了");
-        //     },
-        //     // deep:Boolean,
-        //     // immediate: Boolean
-        // });
-
-
-
-
-        // vm.$watch(function () {
-        //     return this.msg + this.obj.name
-        // }, {
-        //     handler () {
-        //         console.log("name的值改变了");
-        //     },
-        //     // deep:Boolean,
-        //     // immediate: Boolean
-        // });
-
-
-
-        // const unwatch = vm.$watch("msg", function (newVal) {
-            // if (newVal === "邓") {
-            //     unwatch();
-            //     return;
-            // }
-            // console.log("haha");
-
-
-
-            // so something
-        //     if (unwatch) {
-        //         console.log("xxx");
-        //         unwatch();
-        //         return;
-        //     }
-        //     console.log("haha");
-        // }, {
-        //     immediate: true
-        // });
-        
-
-
-
-        
+        });
     </script>
     </body>
 </html>
