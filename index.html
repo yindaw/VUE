@@ -4,135 +4,25 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="./index.css">
-        <script src="./axios.js"></script>
         <script src="./vue.js"></script>
     </head>
     <body>
         <div id="app">
-          <div class="username">
-              <input type="text" placeholder="用户名" v-model="name">
-          </div>
-          <div class="mail">
-              <input type="text" placeholder="邮箱" v-model="mail">
-          </div>
-          <div class="upload-btn" @click="handleUpload">上传</div>
-          <div class="show-btn" @click="handleShow">显示人物信息</div>
-          <button @click="handleCancleGet">取消get请求</button>
-          <ul class="person-list" v-if="personList.length">
-            <li class="person" v-for="person in personList">
-                <span>{{ person.name }}</span>
-                <span>{{ person.mail }}</span>
-            </li>
-          </ul>
+            
         </div>
-
+        
         <script>
-        const source = axios.CancelToken.source();
-        // axios.defaults.basrURL = "https://developer.duyiedu.com/vue";
-        axios.defaults.basrURL = "http://127.0.0.1:12306";
-        axios.interceptors.request.use(config => {
-            // config.method = "post";
-            // config.url = "./setUserInfo";
-
-            // if (config.method === "get") {
-            //     //...
-            // } else if (config.methods === "post") {
-            //     //...
-            // }
-             return config;
-        }, error => {
-            alert("xxx");
-            return Promise.reject(error);
-        });
-
-
-
-        const interceptor = axios.interceptors.response.use(response => {
-            if (response.status === 200) {
-                return response.data;
-            } else {
-                //...
-            }
-            return response.data;
-        }, error => {
-            if (error.response) {
-                console.log("响应时错误");
-            } else if (error.request) {
-                //请求时错误
-                console.log("请求时错误");
-            } else {
-                console.log("取消请求");
-            }
-            // console.log(error.request);
-            // console.log(error.response);
-            return Promise.reject(error);
-        }); 
-        //axios.interceptors.response.eject(interceptor);
-        const instance = axios.create();
-        instance.interceptors.request.use();
-
-
+        //el --> el.outerHTML -->moban --> render -->$el -->el
+        //el $mount()
+        //template -> moban
 
         const vm = new Vue({
             el: "#app",
             data: {
-                name: "",
-                mail: "",
-                msg: "",
-                personList: []
+              
             },
-            methods: {
-                handleUpload () {
-                    axios.post("setUserInfo1", {
-                        name: "shanshan",
-                        mail: "shan@beautiful.com"
-                    })
-                },
-                handleShow () {
-                    axios.get("/getUserInfo", {
-                        cancelToken: source.token
-                    }).then(res => {
-                        console.log(res);
-                    }).catch(error => {
-                        // console.log(error.request);
-                        // console.log(error.response);
-
-                        // if (error.response) {
-                        //     const { status } = error.response;
-                        //     switch (status) {
-                        //         case 404:
-                        //             alert("url地址错误");
-                        //             break;
-                        //         case 401:
-                        //             alert("url地址错误");
-                        //             break;     
-                        //     }
-                        // } else if (error.request) {
-                        //     // console.log("请求时错误");
-                        // } else {
-                        //     console.log(error.message);
-                        // }
-                        // error.request
-                        // console.response
-                        //console.log(error);
-                        //const msg = error.message;
-                        // alert(msg);
-                    });
-                },
-                handleCancleGet () {
-                    source.cancel("取消请求");
-                }
-            },
-            watch: {
-                msg () {
-                    if (this.msg === "") {
-                        return;
-                    }
-                    alert(this.msg);
-                    this.msg = "";
-                }
-            }
+            template: `<div id="app-10"></div>`
+            //template
         });
     </script>
     </body>
