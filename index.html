@@ -7,93 +7,46 @@
         <script src="./vue.js"></script>
     </head>
     <body>
-         <!-- 全局组件 -->
-         <!-- 局部组件 -->
-
-          
-
           <div id="app">
-            <shanshan-cmp></shanshan-cmp>
-            <shanshan-cmp-1></shanshan-cmp-1>
-
-            <my-component></my-component>
-            <MyComponent></MyComponent>
-          </div>
-
-
-          
-          <div id="app1">
-            <button-counter></button-counter>
-            <button-counter></button-counter>
-            <button-counter></button-counter>
-            <button-counter></button-counter>
-            <button-counter></button-counter>
-            <button-counter></button-counter>
-
-            <!-- <shanshan-cmp/>
-            <shanshan-cmp/>
-            <shanshan-cmp/>
-            <shanshan-cmp/>
-            <shanshan-cmp/>
-            <shanshan-cmp/> -->
-
-            
-            <!-- <shanshan-cmp></shanshan-cmp>
-            <shanshan-cmp></shanshan-cmp>
-            <shanshan-cmp></shanshan-cmp>
-            <shanshan-cmp></shanshan-cmp>
-            <shanshan-cmp></shanshan-cmp>
-            <shanshan-cmp></shanshan-cmp> -->
+            <my-cmp :list="list"></my-cmp>
           </div>
           <script>
-              Vue.component("shanshan-cmp", {
-                  template:`
-                    <div>
-                        <div>哈哈，我是一个自定义元素--组件</div>
-                        <div class="play"></div>
-                        <div class="rank"></div>
-                    </div>
-                  `
-              });
-
-              Vue.component("MyComponent", {
-                  template: `<div>我是利用大驼峰命名的</div>`
-              });
-
-
-
-              Vue.component("button-counter", {
-                  data () {
-                    return {
-                        count: 0
+              Vue.component("my-cmp", {
+                // props: ["list"],
+                // props: {
+                //     list: [Array, String]
+                // },
+                props: {
+                    list: {
+                        type: Array,
+                        default () {
+                            return [
+                                { name: "哈哈" },
+                                { name: "嘿嘿" }
+                            ]
+                        },
+                        required: true,
+                        validator (prop) {
+                            return prop.length > 3;
+                        }
                     }
-                  },
-                  template: `<button @click="count ++">点击了我{{count}}次</button>`
-              })
+                },
+                template: `
+                <ul>
+                    <li 
+                    v-for="person in list" 
+                    :key="person.name">{{ person.name }}</li>
+                </ul>
+                `
+              });
               const vm = new Vue({
                   el: "#app",
-                  components: {
-                      "shanshan-cmp-1": {
-                          template: `
-                            <div>嘿嘿，我是组件shanshan-cmp-1</div>
-                          `
-                      }
-                  },
-                  template: `
-                    <div id="app">
-                        <MyComponent></MyComponent>
-                        <shanshan-cmp/>
-                        <shanshan-cmp/>
-                        <shanshan-cmp/>
-                        <shanshan-cmp/>
-                        <shanshan-cmp/>
-                        <shanshan-cmp/>
-                    </div>
-                  `
-              });
-
-              const vm1 = new Vue({
-                  el: "#app1"
+                  data: {
+                      list: [
+                          { name: "杉杉" },
+                          { name: "渡一" }
+                      ]
+                  }
               });
           </script>
     </body>
