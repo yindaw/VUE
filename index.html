@@ -4,71 +4,106 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link rel="stylesheet" href="./pikaday.css">
+        <script src="./pikaday.js"></script>
         <script src="./vue.js"></script>
     </head>
     <body>
           <div id="app">
-              <!-- <component is="cmp-b"></component> -->
-              <button v-for="page in pages" 
-              :key="page.id"
-              @click="cmpPage = page.cmp">{{ page.name }}</button>
-              <keep-alive>
-                  <component :is="cmpPage"></component>
-              </keep-alive>
+            <my-cmp ref="myCmp">
+                <!-- <cmp-a>
+                    <cmp-b>
+                        <cmp-c></cmp-c>
+                    </cmp-b>
+                </cmp-a> -->
+            </my-cmp>
+            <!-- <input v-for="item in 3" ref="input"> -->
           </div>
           <script>
-              Vue.component("cmp-post", {
-                data () {
+              Vue.component("my-cmp", {
+                  provide () {
+                      return {
+                          share: this.share
+                      } 
+                  },
+                  data () {
                     return {
-                        postCmp: undefined,
-                        posts: [
-                            { title: "标题",  content: { template: `<div>内容1</div>` }, id: 11 },
-                            { title: "标题1", content: { template: `<div>内容2</div>` }, id: 12 },
-                            { title: "标题2", content: { template: `<div>内容3</div>` }, id: 13 }
-                        ]
+                        share: "share",
                     }
-                },
-                created () {
-                    this.postCmp = this.posts[0].content;
-                },
-                activated () {
-                    console.log("post activated");
-                },
-                deactivated () {
-                    console.log("post deactivated");
-                },
-                template: `
+                  },
+                  mounted () {
+                    this.datePicker("inputA");
+                    this.datePicker("inputB");
+                  },
+                  beforeDestroy () {
+                    //    this.picker.destroy(); 
+                  },
+                  methods: {
+                    datePicker (refName) {
+                        var picker = new Pikaday({
+                         field: this.$refs[refName],
+                         format: "YYY-MM-DD"
+                         });
+                        this.$on("hook:beforeDestroy", () => {
+                            picker.destroy();
+                        }) 
+                    }
+                  },
+                  template: `
                     <div>
-                       <button v-for="post in posts"
-                       :key="post.id"
-                       @click="postCmp = post.content">{{ post.title }}</button> 
-                       <keep-alive>
-                            <component :is="postCmp"></component>
-                        </keep-alive>
+                        <input ref="inputA"/>  
+                        <input ref="inputB"/>
+                        <button @click="$destroy()">销毁自己</button>  
                     </div>
-                `
+                  `
               });
-              Vue.component("cmp-more", {
-                activated () {
-                    console.log("more activated");
-                },
-                deactivated () {
-                    console.log("more deactivated");
-                },
-                template: `
-                    <div>more</div>
-                `
-              });      
+
+              Vue.component("cmp-a", {
+                  inject: ["share"],
+                  mounted () {
+                      console.log(this.share);
+                  },
+                  template: `
+                    <div>
+                        <slot></slot>   
+                    </div>
+                  `
+              });
+
+              Vue.component("cmp-b", {
+                  inject: ["share"],
+                  mounted () {
+                      console.log(this.share);
+                  },
+                //   mounted () {
+                //     this.$root.name = "duyi";  
+                //   },
+                  template: `
+                    <div>
+                        <slot></slot>       
+                    </div>
+                  `
+              });
+
+              Vue.component("cmp-c", {
+                  mounted () {
+                    console.log(this.$parent.share || this.$parent.$parent || this.$parent.$parent.$parent.root);  
+                  },
+                  template: `
+                    <div>
+                        <slot></slot>       
+                    </div>
+                  `
+              });
               const vm = new Vue({
                   el: "#app",
+                  mounted () {
+                      console.log(this.$refs);
+                  },
                   data: {
-                    cmpPage: "cmp-post",
-                    pages: [
-                        { name: "博客", cmp: "cmp-post", id: 0 },
-                        { name: "更多", cmp: "cmp-more", id: 1 }
-                    ]
+                    name: "shanshan"
                   }
-              }); 
+              });
           </script>
     </body>
 </html>
