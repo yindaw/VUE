@@ -8,111 +8,59 @@
     </head>
     <body>
           <div id="app">
-              <!-- <my-cmp v-focus></my-cmp> -->
-              <!-- <input type="text" v-focus:src.x.y="name" v-if="show"> -->
-              <!-- <input type="text" v-myshow="show"> -->
-              <!-- <input type="text" v-mymodel="content"> -->
-              <input type="text" v-slice:[slicenum].number="content">
-              {{ content }}
+                <!-- {{ content | filterA("a") | filterB}} -->
+                {{ content | capitalize }}
+                {{ money | toMoney }}
+                {{ likes | addWord }}
           </div>
           <script>
-             // v-on v-bind v-model 
-             //全局
-             Vue.component("my-cmp", {
-                 template: `
-                    <div>
-                        <p>Mr Deng is a p</p>
-                    </div>
-                 `
-             })
-             Vue.directive("focus", {
-                bind (el, binding, vnode) {
-                    console.log(el);   
-                    console.log(binding.name);
-                    console.log(binding.value);
-                    console.log(binding.expression);
-                    console.log(binding.arg);
-                    console.log(binding.modifiers);
+              //filter
+              Vue.filter("filterA", (val, a) => {
+                    console.log(val, a);
+                    return "aaa";
+              })
 
-                    console.log(binding);
-                    console.log(vnode.context);
-                    // el.focus();
-                },
-                inserted (el) {
-                    // el.focus();
-                    // console.log("inserted");
-                },
-                update () {
-                    console.log("update");
-                },
-                componentUpdated () {
-                    console.log("componentUpdated");
-                },
-                unbind () {
-                    console.log("unbind");
-                }
-             });
+              Vue.filter("filterB", (val) => {
+                    console.log(val);
+                    return "bbb";
+              })
              
+              Vue.filter("capitalize", val => {
+                  if (!val) {
+                      return
+                  };
+                  return val.charAt(0).toUpperCase() + val.slice(1);
+              });
+
+              Vue.filter("toMoney", val => {
+                  return val.toLocaleString();
+              });
 
 
-             Vue.directive("myshow", (el, binding) => {
-                const { value } = binding;
-                const display = value ? "" : "none";
-                el.style.display = display;
-             })
-             Vue.directive("mymodel", {
-                 bind (el, binding, vnode) {
-                    const vm = vnode.context;
-                    const { value, expression} = binding; 
-                    el.value = value;
-                    el.oninput = function () {
-                        const inputVal = el.value;
-                        vm[expression] = inputVal;
+              Vue.filter("addWord", val => {
+                    if (!val) {
+                        return
+                    };
+                    if (val > 10000) {
+                        return ( val / 10000 ).toFixed(1) + "万";
                     }
-                 },
-                 update (el, binding) {
-                    const { value } = binding;
-                    el.value = value;
-                 }
-             })
-             //截取input框内的文字
-             //v-slice:5 .number
-             Vue.directive("slice", (el, binding, vnode) => {
-                const vm = vnode.context;
-                let { value, expression, arg, modifiers} = binding;
-                arg = arg || 5;
-                if (modifiers.number) {
-                    value = value.replace(/[^0-9]/g, "");
-                }
-                el.value = value.slice(0, arg);
-                vm[expression] = value.slice(0, arg);
-                
-                el.oninput = function () {
-                    let { value } = el;
-                    if (modifiers.number) {
-                        value = value.replace(/[^0-9]/g, "");
-                    }
-                    vm[expression] = value.slice(0, arg);
-                    el.value = value.slice(0, arg);
-                }
-             });
-              
-             //局部
-             
-             const vm = new Vue({
-                 el: "#app",
-                 data: {
-                    name: "shanshan",
-                    show: true,
-                    content: "shanshan",
-                    slicenum: 3
-                 },
-                //  directives: {
-                //      focus: {
+                    return val;
+              });
 
-                //      }
-                //  }
-             });
+
+              const vm = new Vue({
+                  el: "#app",
+                  data: {
+                     content: "shanshan",
+                     money: 89789978456,
+                     likes: 4649465484
+                  },
+                //   filters: {
+                //       filter () {
+                //         return "aaaa"
+                //       }
+                //   }
+              });
           </script>
     </body>
 </html>
