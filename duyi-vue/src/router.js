@@ -8,7 +8,13 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
-        component: Home 
+        redirect: "/home"
+    },
+    {
+        path: "/home",
+        component: Home,
+        // alias: "/"
+
     },
     {
         path: "/learn",
@@ -25,6 +31,29 @@ const routes = [
     {
         path: "/activity",
         component: () => import("./views/Activity"),
+        // redirect: { name: 'academic' },
+        redirect (to) {
+            return {
+                name: "academic"
+            }
+        },
+        children: [
+            {
+                path: "academic",
+                name: "academic",
+                component: () => import("./views/Academic"),
+            },
+            {
+                path: "personal",
+                name: "personal",
+                component: () => import("./views/Personal"),
+            },
+            {
+                path: "download",
+                name: "download",
+                component: () => import("./views/Download"),
+            },
+        ]
     },
 ];
 
