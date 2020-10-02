@@ -1,71 +1,51 @@
 <template>
     <div class="demo">
-        <button @click="handleClick">click</button>
-        <transition
-        mode="in-out">
-            <div class="box" :key="keyName">hello {{ keyName }}</div>
-        </transition>
+        <input type="text" v-model="query">
+        <transition-group tag="ul"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        >
+            <li v-for="item in computedList" :key="item.name">
+            {{ item.name }}
+        </li>
+        </transition-group>
     </div>
 </template>
 <script>
-export default { 
+export default {
     data () {
         return {
-          keyName: "world",
+           query: "",
+           lists: [
+               { name: "shanshan" },
+               { name: "jicheng" },
+               { name: "chensitong" },
+               { name: "dengxuming" },
+           ] 
+        }
+    },
+    computed: {
+        computedList (){
+           return this.lists.filter(item => item.name.includes(this.query));
         }
     },
     methods: {
-       handleClick () {
-            const isWorld = this.keyName === "world";
-            this.keyName = isWorld ? "shanshan" : "world";
-       }
+        beforeEnter (el) {
+            el.style.opacity = 0;
+            el.style.height = 0;
+        },
+        enter (el, done) {
+            Velocity(el, { opacity: 1, height: "24px" }, { duration: 300, complete: done })
+        },
+        leave (el, done) {
+            Velocity(el, { opacity: 0, height: "0px" }, { duration: 300, complete: done })
+        }
     }
 }
 </script>
 <style scoped>
-    .demo {
-        margin-left: 100px;
-    }
-
-    button {
-        display: block;
-    }
-
-    .box {
-        display: inline-block;
-        position: absolute;
-        width: 200px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        background: gray;
-        color: #fff;
-        margin-top: 10px;
-    }
-
-    .v-enter,
-    .v-leave-to {
-        opacity: 0;
-        transform: translateX(80px);
-    }
-
-    .v-enter-active,
-    .v-leave-active {
-        transition: all 0.3s;
-    }
-
-    .v-enter-to {
-        opacity: 1;
-        transform: translateX(0px);
-    }
-
-    .v-leave {
-        opacity: 1;
-        transform: translateX(0px);
-    }
-
-    .v-leave-to {
-        opacity: 0;
-        transform: translateX(-80px);
+    li {
+        height: 24px;
     }
 </style>
