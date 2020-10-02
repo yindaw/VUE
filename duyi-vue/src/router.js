@@ -30,7 +30,7 @@ const routes = [
     },
     {
         path: "/activity",
-        component: () => import("./views/Activity"),
+        component: () => import(/* webpackChunkName: academic */  "./views/Activity"),
         // redirect: { name: 'academic' },
         redirect (to) {
             return {
@@ -41,7 +41,7 @@ const routes = [
             {
                 path: "academic",
                 name: "academic",
-                component: () => import("./views/Academic"),
+                component: () => import(/* webpackChunkName: academic */  "./views/Academic"),
             },
             {
                 path: "personal",
