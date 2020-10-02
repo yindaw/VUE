@@ -1,45 +1,29 @@
 <template>
     <div id="app">
-        app
-        <base-level :level="2" @click="handleClick">
-            
-
-            <!-- <template #default>
-                标题
-            </template>
-
-            <template #header>
-                标题
-            </template>
-
-            <div>div</div>
-            <p>p</p> -->
-
-
-
-            <template v-slot:header>
-                <p>first</p>
-            </template>
-            <p>scoped</p>
-        标题</base-level>
+        <base-demo></base-demo>
     </div>
 </template>
+
 <script>
-import BaseLevel from "./components/BaseLevel";
+//import BaseDemo from "./components/BaseDemo1";
+// import BaseDemo from "./components/BaseDemo2";
+// import BaseDemo from "./components/BaseDemo3";
+// import BaseDemo from "./components/BaseDemo4";
+// import BaseDemo from "./components/BaseDemo5";
+// import BaseDemo from "./components/BaseDemo6";
+// import BaseDemo from "./components/BaseDemo7";
+// import BaseDemo from "./components/BaseDemo8";
+// import BaseDemo from "./components/BaseDemo9";
+import BaseDemo from "./components/BaseDemo10";
+
+
+
+
+
 export default {
     name: "app",
-    provide () {
-        return {
-            name: "shanshan"
-        }
-    },
     components: {
-        BaseLevel,
-    },
-    methods: {
-        handleClick () {
-          console.log("xxxx");  
-        } 
+        BaseDemo,
     }
 }
 </script>
