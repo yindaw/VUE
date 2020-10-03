@@ -19,9 +19,12 @@
 <script>
 export default {
      beforeRouteUpdate (to, from,next) {
-            console.log("update");
-            next();
-    },
+        next();
+     },
+    //  beforeRouteLeave (to, from, next) {
+    //     const isGo = window.confirm("真的要走吗，不在看看了？");
+    //     isGo ? next() : next(false);
+    //  },
   props: {
       id: {
           type: [String, Number]
