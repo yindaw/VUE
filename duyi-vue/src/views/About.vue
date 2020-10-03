@@ -1,6 +1,8 @@
 <template>
   <div class="about">
     关于
+    <div id="a">aaa</div>
+    <router-link tag="div" class="link" to="/">回首页</router-link>
   </div>
 </template>
 
@@ -11,3 +13,12 @@ export default {
   }
 }
 </script>
+<style scoped>
+    .a {
+        margin-top: 1000px;
+    }
+
+    .link {
+        margin-top: 1000px;
+    }
+</style>
